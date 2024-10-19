@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Obtener Ubicación</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition);
+            } else {
+                alert("La geolocalización no es soportada por este navegador.");
+            }
+        }
+
+        function sendPosition(position) {
+            // Aquí se puede enviar la ubicación a tu servidor mediante un request AJAX o fetch
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            fetch('https://tu-servidor.com/guardar-ubicacion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ latitude: lat, longitude: lon })
+            }).then(response => response.text())
+              .then(data => console.log(data));
+        }
+    </script>
+</head>
+<body onload="getLocation()">
+    <h1>Obteniendo tu ubicación...</h1>
+</body>
+</html>
