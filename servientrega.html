@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obtener Ubicación</title>
     <style>
         /* Oculta el contenido hasta que el usuario permita la ubicación */
@@ -13,11 +15,27 @@
             color: red;
             font-weight: bold;
         }
+
+        /* Estilo para el botón */
+        #reintentar {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #reintentar:hover {
+            background-color: darkblue;
+        }
     </style>
 </head>
 <body>
     <h1>Bienvenido a Mi Página</h1>
     <p id="advertencia">Por favor, permita el acceso a su ubicación para continuar.</p>
+    <button id="reintentar" onclick="solicitarUbicacion()">Reintentar</button>
     <div id="contenido">
         <p>¡Gracias por permitir el acceso a su ubicación!</p>
         <!-- Aquí puedes agregar más contenido que desees mostrar después de obtener la ubicación -->
@@ -37,13 +55,16 @@
         function mostrarContenido(position) {
             document.getElementById("contenido").style.display = "block";
             document.getElementById("advertencia").style.display = "none";
+            document.getElementById("reintentar").style.display = "none";
         }
 
         // Muestra un mensaje de advertencia si el usuario no permite la ubicación
         function mostrarAdvertencia(error) {
+            document.getElementById("reintentar").style.display = "block"; // Mostrar botón para reintentar
             if (error.code === error.PERMISSION_DENIED) {
                 alert("Debe permitir el acceso a la ubicación para acceder al contenido.");
-                solicitarUbicacion();
+            } else {
+                alert("Error al obtener la ubicación: " + error.message);
             }
         }
 
